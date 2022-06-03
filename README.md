@@ -1,6 +1,6 @@
 # FTL-practice-task
 The test task for FTL
------
+______
 
 # Description:
 
@@ -9,7 +9,7 @@ Developers at TheFintechLab want to be able to easily test their applications in
 # Requirements:
 
 - use infrastructure as code (ansible, terraform) to create CLI command(s) that deploy load balancer and a compute instance behind it in any public cloud (e.g. AWS, GCP, Azure);
-- deploy web server in a docker container on the compute instance that serves a "hello world" page (index.html - <h1>Hello World</h1>);
+- deploy web server in a docker container on the compute instance that serves a "hello world" page (index.html - `<h1>Hello World</h1>)`;
 - only official images from Docker Hub should be used;
 - image should be based on Alpine-Linux;
 - web server should be python (e.g. flask, gunicorn);
