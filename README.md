@@ -22,15 +22,19 @@ Developers at TheFintechLab want to be able to easily test their applications in
 1. Link to sources in GitHub or GitLab.
 2. Clear documentation to get this running on any machine.
 
-=======
+______
+______
 
-You will need to have preinstalled:
+# You will need to have preinstalled:
 1. Python
 2. Pip
 3. Terraform
+
 # Solution:
 A little preparations:
+
 `pip3 install -r ./ansible/requirements.txt`
+
 `ansible-galaxy collection install -r ./ansible/collection_requirements.yml`
 
 1. To create the infrastructure you will need to export the AWS keys to your shell env
