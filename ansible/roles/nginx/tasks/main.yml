@@ -1,0 +1,21 @@
+---
+    - name: ensure nginx is at the latest version
+      apt: name=nginx state=latest
+
+    - name: start nginx
+      service:
+          name: nginx
+          state: started
+
+    - name: apply Nginx template
+      template:
+        src: files/nginx.conf.j2
+        dest: /etc/nginx/sites-available/listener80
+      notify: restart Nginx
+
+    - name: enable new site
+      file:
+        src: /etc/nginx/sites-available/listener80
+        dest: /etc/nginx/sites-enabled/listener80
+        state: link
+      notify: restart Nginx
