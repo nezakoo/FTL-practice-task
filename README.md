@@ -23,6 +23,7 @@ Developers at TheFintechLab want to be able to easily test their applications in
 2. Clear documentation to get this running on any machine.
 
 =======
+
 You will need to have preinstalled:
 1. Python
 2. Pip
@@ -38,3 +39,4 @@ A little preparations:
 4. Make sure that Subnet for SSH for the Security Group in `network.tf` is correct
 5. Run `terraform apply in terraform folder`
 6. Run `ansible-playbook playbook.yaml -i ./inventory/aws_ec2.yaml -l tag_Application_application -u ubuntu --key ../../FTL-app-key`
+7. Enjoy your endpoinds :)
