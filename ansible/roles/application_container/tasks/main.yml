@@ -1,0 +1,39 @@
+---
+- name: create build directory
+  file:
+    path: /home/ubuntu/containerized_application
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'
+
+- name: copy Dockerfile
+  copy:
+    src: ../docker/Dockerfile
+    dest: /home/ubuntu/containerized_application/Dockerfile
+    owner: ubuntu
+    group: ubuntu
+    mode: '0644'
+
+- name: copy application src
+  copy:
+    src: ../docker/src
+    dest: /home/ubuntu/containerized_application
+    owner: ubuntu
+    group: ubuntu
+    mode: '0644'
+
+- name: build container image
+  docker_image:
+    name: py_webserver_landing
+    source: build
+    build:
+      path: /home/ubuntu/containerized_application
+    state: present
+
+- name: create a container
+  docker_container:
+    name: py_webserver_landing
+    image: py_webserver_landing
+    state: started
+    ports: "80:80"
