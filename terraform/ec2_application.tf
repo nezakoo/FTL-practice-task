@@ -7,7 +7,7 @@ module "ec2_application" {
   subnet_id                   = aws_subnet.prod_like_public.id
   associate_public_ip_address = "true"
   key_name                    = aws_key_pair.ec2_application_key.key_name
-  vpc_security_group_ids      = [aws_security_group.ssh.id]
+  vpc_security_group_ids      = [aws_security_group.ssh.id, aws_security_group.http.id, aws_security_group.https.id]
 
   tags = merge(local.tags, {
     Name = "application_ec2"

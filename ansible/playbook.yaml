@@ -18,3 +18,9 @@
       pip:
         name:
           - docker
+  post_tasks:
+    - name: Print the URL for the websites
+      ansible.builtin.debug:
+        msg:
+        - "Your static http website url is http://'{{ hostvars[inventory_hostname]['ansible_env'].SSH_CONNECTION.split(' ')[2] }}':8090"
+        - "Your static https website url is https://'{{ hostvars[inventory_hostname]['ansible_env'].SSH_CONNECTION.split(' ')[2] }}':443"

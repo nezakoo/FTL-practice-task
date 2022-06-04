@@ -36,4 +36,4 @@
     name: py_webserver_landing
     image: py_webserver_landing
     state: started
-    ports: "80:80"
+    ports: "8080:8080"

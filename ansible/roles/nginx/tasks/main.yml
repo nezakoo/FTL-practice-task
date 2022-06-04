@@ -10,12 +10,66 @@
     - name: apply Nginx template
       template:
         src: files/nginx.conf.j2
-        dest: /etc/nginx/sites-available/listener80
+        dest: /etc/nginx/sites-available/default
       notify: restart Nginx
 
     - name: enable new site
       file:
-        src: /etc/nginx/sites-available/listener80
-        dest: /etc/nginx/sites-enabled/listener80
+        src: /etc/nginx/sites-available/default
+        dest: /etc/nginx/sites-enabled/default
         state: link
       notify: restart Nginx
+
+    - name: Install openssl
+      package:
+        name: "{{item}}"
+        state: latest
+      with_items:
+        - openssl
+        - python-openssl
+
+    - name: Generate an OpenSSL private key
+      openssl_privatekey:
+        path: /etc/ssl/private/FTL.com.pem
+
+    - name: Create directory
+      file:
+        path: /etc/ssl/csr
+        state: directory
+        mode: 0755
+
+    - name: Generate an OpenSSL Certificate Signing Request
+      openssl_csr:
+        path: /etc/ssl/csr/www.FTL.com.csr
+        privatekey_path: /etc/ssl/private/FTL.com.pem
+        country_name: UA
+        organization_name: FTL
+        email_address: example@example.com
+
+    - name: Generate a self signed certificate
+      openssl_certificate:
+        path: /etc/ssl/certs/nginx-selfsigned.crt
+        privatekey_path: /etc/ssl/private/FTL.com.pem
+        csr_path: /etc/ssl/csr/www.FTL.com.csr
+        provider: selfsigned
+
+    - name: copy cert for ssl
+      copy:
+        src: files/self-signed.conf
+        dest: /etc/nginx/snippets/self-signed.conf
+        owner: ubuntu
+        group: ubuntu
+        mode: 0644
+
+    - name: copy snippets for ssl
+      copy:
+        src: files/ssl-params.conf
+        dest: /etc/nginx/snippets/ssl-params.conf
+        owner: ubuntu
+        group: ubuntu
+        mode: 0644
+
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted

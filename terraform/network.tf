@@ -77,11 +77,37 @@ resource "aws_security_group" "http" {
   vpc_id      = aws_vpc.prod_like.id
 
   ingress {
-    description = "http from my PC"
-    from_port   = 80
-    to_port     = 80
+    description = "http to world"
+    from_port   = 8090
+    to_port     = 8090
     protocol    = "tcp"
-    cidr_blocks = ["213.207.186.0/24"]
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = local.tags
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+resource "aws_security_group" "https" {
+  name        = "https"
+  description = "https from my PC"
+  vpc_id      = aws_vpc.prod_like.id
+
+  ingress {
+    description = "https to world"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
